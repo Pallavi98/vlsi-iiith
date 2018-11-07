@@ -1,10 +1,8 @@
 //-- Urchin Tracking Module 6.1 (UTM 6.1) $Revision: 1.1 $
 //-- Copyright 2004 Urchin Software Corporation, All Rights Reserved.
-
 //-- Urchin On Demand Settings ONLY
 var _uacct="";			// set up the Urchin Account
 var _userv=0;			// service mode (0=local,1=remote,2=both)
-
 //-- UTM User Settings
 var _ufsc=1;			// set client info flag (1=on|0=off)
 var _udn="addons.mozilla.org";		// (auto|none|domain) set the domain name for cookies
@@ -14,7 +12,6 @@ var _ugifpath="/img/__utm.gif";	// set the web path to the __utm.gif file
 var _utsp="|";			// transaction field separator
 var _uflash=1;			// set flash version detect option (1=on|0=off)
 var _utitle=1;			// set the document title detect option (1=on|0=off)
-
 //-- UTM Campaign Tracking Settings
 var _uctm=1;			// set campaign tracking module (1=on|0=off)
 var _ucto="15768000";		// set timeout in seconds (6 month default)
@@ -25,7 +22,6 @@ var _uctr="utm_term";		// term/keyword
 var _ucct="utm_content";	// content
 var _ucid="utm_id";		// id number
 var _ucno="utm_nooverride";	// don't override
-
 //-- Auto/Organic Sources and Keywords
 var _uOsr=new Array();
 var _uOkw=new Array();
@@ -49,24 +45,27 @@ _uOsr[16]="gigablast";	_uOkw[16]="q";
 _uOsr[17]="voila";	_uOkw[17]="kw";
 _uOsr[18]="virgilio";	_uOkw[18]="qs";
 _uOsr[19]="teoma";	_uOkw[19]="q";
-
 //-- Auto/Organic Keywords to Ignore
 var _uOno=new Array();
 //_uOno[0]="urchin";
 //_uOno[1]="urchin.com";
 //_uOno[2]="www.urchin.com";
-
 //-- Referral domains to Ignore
 var _uRno=new Array();
 //_uRno[0]=".urchin.com";
-
 //-- **** Don't modify below this point ***
 var _uff,_udh,_udt,_udo="",_uu,_ufns=0,_uns=0,_ur="-",_ufno=0,_ust=0,_ujv="-",_ubd=document,_udl=_ubd.location,_uwv="6.1";
 var _ugifpath2="http://service.urchin.com/__utm.gif";
-if (_udl.protocol=="https:") _ugifpath2="https://service.urchin.com/__utm.gif";
+if (_udl.protocol=="https:") {
+ _ugifpath2="https://service.urchin.com/__utm.gif";
+}
 function urchinTracker(page) {
- if (_udl.protocol=="file:") return;
- if (_uff && (!page || page=="")) return;
+ if (_udl.protocol=="file:"){
+  return;
+ }
+ if (_uff && (!page || page=="")){ 
+  return;
+ }
  var a,b,c,v,x="",s="",f=0;
  var nx=" expires=Sun, 18 Jan 2038 00:00:00 GMT;";
  var dc=_ubd.cookie;
@@ -77,7 +76,9 @@ function urchinTracker(page) {
  a=dc.indexOf("__utma="+_udh);
  b=dc.indexOf("__utmb="+_udh);
  c=dc.indexOf("__utmc="+_udh);
- if (_udn && _udn!="") { _udo=" domain="+_udn+";"; }
+ if (_udn && _udn!="") { 
+  _udo=" domain="+_udn+";"; 
+ }
  if (_utimeout && _utimeout!="") {
   x=new Date(_udt.getTime()+(_utimeout*1000));
   x=" expires="+x.toGMTString()+";";
@@ -88,7 +89,9 @@ function urchinTracker(page) {
   b=_uGC(s,"__utmb=","&");
   c=_uGC(s,"__utmc=","&");
   if (a!="-" && b!="-" && c!="-") f=1;
-  else if(a!="-") f=2;
+  else if(a!="-") {
+   f=2;
+  }
  }
  if(f==1) {
   _ubd.cookie="__utma="+a+"; path=/;"+nx;
@@ -103,8 +106,12 @@ function urchinTracker(page) {
  } else if (a>=0 && b>=0 && c>=0) {
   _ubd.cookie="__utmb="+_udh+"; path=/;"+x+_udo;
  } else {
-  if (a>=0) a=_uFixA(_ubd.cookie,";",_ust);
-  else a=_udh+"."+_uu+"."+_ust+"."+_ust+"."+_ust+".1";
+  if (a>=0){
+   a=_uFixA(_ubd.cookie,";",_ust);
+  }
+   else{
+    a=_udh+"."+_uu+"."+_ust+"."+_ust+"."+_ust+".1";
+   }
   _ubd.cookie="__utma="+a+"; path=/;"+nx+_udo;
   _ubd.cookie="__utmb="+_udh+"; path=/;"+x+_udo;
   _ubd.cookie="__utmc="+_udh+"; path=/;"+_udo;
@@ -123,8 +130,10 @@ function urchinTracker(page) {
 urchinTracker();
 function _uInfo(page) {
  var p,s="",pg=_udl.pathname+_udl.search;
- if (page && page!="") pg=escape(page);
+ if (page && page!=""){
+  pg=escape(page);
  _ur=_ubd.referrer;
+ }
  if (!_ur || _ur=="") { _ur="-"; }
  else {
   p=_ur.indexOf(_ubd.domain);
@@ -132,11 +141,11 @@ function _uInfo(page) {
   if (_ur.indexOf("[")==0 && _ur.lastIndexOf("]")==(_ur.length-1)) { _ur="-"; }
  }
  s+="&utmn="+_uu;
- if (_ufsc) s+=_uBInfo(page);
- if (_uctm && (!page || page=="")) s+=_uCInfo();
- if (_utitle && _ubd.title && _ubd.title!="") s+="&utmdt="+escape(_ubd.title);
- if (_udl.hostname && _udl.hostname!="") s+="&utmhn="+escape(_udl.hostname);
- if (!page || page=="") s+="&utmr="+_ur;
+ if (_ufsc){ s+=_uBInfo(page);}
+ if (_uctm && (!page || page=="")){ s+=_uCInfo();}
+ if (_utitle && _ubd.title && _ubd.title!=""){ s+="&utmdt="+escape(_ubd.title);}
+ if (_udl.hostname && _udl.hostname!=""){ s+="&utmhn="+escape(_udl.hostname);}
+ if (!page || page==""){ s+="&utmr="+_ur;}
  s+="&utmp="+pg;
  if (_userv==0 || _userv==2) {
   var i=new Image(1,1);
@@ -469,14 +478,12 @@ function _uTrim(s) {
   while ((s.charAt(s.length-1)==' ') || (s.charAt(s.length-1)=='\n') || (s.charAt(s.length-1)=='\r')) s=s.substring(0,s.length-1);
   return s;
 }
-
 function _uEC(s) {
   var n="";
   if (!s || s=="") return "";
   for (var i=0;i<s.length;i++) {if (s.charAt(i)==" ") n+="+"; else n+=s.charAt(i);}
   return n;
 }
-
 function __utmVisitorCode() {
  var r=0,t=0,i=0,i2=0,m=31;
  var a=_uGC(_ubd.cookie,"__utma="+_udh,";");
