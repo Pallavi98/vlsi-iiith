@@ -5,8 +5,7 @@ breadcrumb=""
 def writefile(fname,s,s1,heading):
 	f=open(fname, 'w+')
 	f.write(template)
-	f.seek(0)
-	
+	f.seek(0)	
 	content = f.read()
 	content=content.replace('Disciplines and Domains',breadcrumb)
 	f.seek(0)
@@ -14,8 +13,7 @@ def writefile(fname,s,s1,heading):
 	#print content
 	f.seek(0)
 	content=f.read()
-	k=content.index('<div class="col-md-10 lab-list-col-10">')
-	
+	k=content.index('<div class="col-md-10 lab-list-col-10">')	
 	t1=content.index('<!--edit1-->')
 	print t1
 	f.seek(t1+13)
@@ -35,8 +33,7 @@ def writefile(fname,s,s1,heading):
 	content=f.read()
 	#print content
 	filedata=content.replace('index.php','Introduction.html?domain=Computer Science&lab='+heading)
-	f.seek(0)
-	f.write(filedata)	
+	f.seek(0) f.write(filedata)	
 f=open("template.html",'r')
 template=f.read()
 f=open("content.html",'r')
@@ -67,8 +64,7 @@ while sectionNumber<=len(sectionno):
 	print tag1
 	if tag1=='Prerequisite S/W':
 		tag1='Prerequisites'
-	st+='<a href="'+tag1+'.html?domain=Computer Science"'+' class="sidebar-a" > <h3 class="text-h3-darkblue" style="margin-top: 2px;">'+tag1+'</h3></a>'	
-	sectionNumber=sectionNumber+1
+	st+='<a href="'+tag1+'.html?domain=Computer Science"'+' class="sidebar-a" > <h3 class="text-h3-darkblue" style="margin-top: 2px;">'+tag1+'</h3></a>'sectionNumber=sectionNumber+1
 sectionNumber=1
 while sectionNumber<=len(sectionno):
 	tag=""
@@ -79,24 +75,20 @@ while sectionNumber<=len(sectionno):
 		sectionNumber=sectionNumber+1
 		continue
 	tag1=str(tagger[0].text)	
-	tag1=tag1.strip()
-	if tag1=='Prerequisite S/W':
+	tag1=tag1.strip() if tag1=='Prerequisite S/W':
 		tag1='Prerequisites'
 	att ='lab-article-section-'+str(sectionNumber)+'-content'
-	tagger = soup.findAll('div', attrs={'id':att,'class':'content'})
-	
+	tagger = soup.findAll('div', attrs={'id':att,'class':'content'})	
 	tag+=str(tagger[0])
 	tag=tag.replace('<div class="content" id="'+att+'">','<div>')
 	#print tag
 	#print st
-	
 	writefile(tag1+'.html',tag,st,heading)
 	#print sectionNumber
 	sectionNumber=sectionNumber+1
 f=open("Feedback.html",'w+')
 f.write(template)
-f.seek(0)
-	
+f.seek(0)	
 content = f.read()
 content=content.replace('Disciplines and Domains',breadcrumb)
 f.seek(0)
@@ -104,8 +96,7 @@ f.write(content)
 #print content
 f.seek(0)
 content=f.read()
-k=content.index('<div class="col-md-10 lab-list-col-10">')
-	
+k=content.index('<div class="col-md-10 lab-list-col-10">')	
 t1=content.index('<!--edit1-->')
 print t1
 f.seek(t1+13)
