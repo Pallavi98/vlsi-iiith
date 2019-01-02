@@ -4,18 +4,15 @@ breadcrumb=""
 def writefile(fname,s,s1,heading):
 	f=open(fname, 'w+')
 	f.write(template)
-	f.seek(0)
-	
+	f.seek(0)	
 	content = f.read()
 	content=content.replace('Disciplines and Domains',breadcrumb)
 	f.seek(0)
 	f.write(content)
-	print content
-	
+	print content	
 	f.seek(0)
 	content=f.read()
-	k=content.index('<div class="col-md-10 lab-list-col-10">')
-	
+	k=content.index('<div class="col-md-10 lab-list-col-10">')	
 	t1=content.index('<!--edit1-->')
 	print t1
 	f.seek(t1+13)
@@ -42,7 +39,6 @@ d=['introduction','theory','objective','experiment','manual','quizzes','further_
 print len(sectionno)
 sectionNumber=1
 st=""
-
 att = ''+'experiment-article-heading'
 tagger = soup.findAll('header', attrs={'id':att,'class':'heading'})
 heading=str(tagger[0].text)
@@ -66,8 +62,7 @@ while sectionNumber<=len(sectionno):
 	print tag1
 	if tag1=='Prerequisite S/W':
 		tag1='Prerequisites'
-	st+='<a href="'+tag1+'.html?domain=Computer Science&lab='+heading1+'" class="sidebar-a" > <h3 class="text-h3-darkblue" style="margin-top: 2px;">'+tag1+'</h3></a>'	
-	sectionNumber=sectionNumber+1
+	st+='<a href="'+tag1+'.html?domain=Computer Science&lab='+heading1+'" class="sidebar-a" > <h3 class="text-h3-darkblue" style="margin-top: 2px;">'+tag1+'</h3></a>'sectionNumber=sectionNumber+1
 st+='<a href="Feedback.html?domain=Computer Science&lab='+heading1+'" class="sidebar-a" > <h3 class="text-h3-darkblue" style="margin-top: 2px;">Feedback</h3></a>'
 sectionNumber=1
 while sectionNumber<=len(sectionno):
@@ -79,25 +74,19 @@ while sectionNumber<=len(sectionno):
 		sectionNumber=sectionNumber+1
 		continue
 	tag1=str(tagger[0].text)	
-	tag1=tag1.strip()
-	if tag1=='Prerequisite S/W':
+	tag1=tag1.strip() if tag1=='Prerequisite S/W':
 		tag1='Prerequisites'
 	att = ''+'experiment-article-section-'+str(sectionNumber)+'-content'
-	tagger = soup.findAll('div', attrs={'id':att,'class':'content'})
-	
+	tagger = soup.findAll('div', attrs={'id':att,'class':'content'})	
 	tag+=str(tagger[0])
 	#print tag
 	#print st
-	
-	
 	writefile(tag1+'.html',tag,st,heading)
 	#print sectionNumber
-	sectionNumber=sectionNumber+1
-	
+	sectionNumber=sectionNumber+1	
 f=open("Feedback.html",'w+')
 f.write(template)
-f.seek(0)
-	
+f.seek(0)	
 content = f.read()
 content=content.replace('Disciplines and Domains',breadcrumb)
 f.seek(0)
@@ -105,8 +94,7 @@ f.write(content)
 #print content
 f.seek(0)
 content=f.read()
-k=content.index('<div class="col-md-10 lab-list-col-10">')
-	
+k=content.index('<div class="col-md-10 lab-list-col-10">')	
 t1=content.index('<!--edit1-->')
 print t1
 f.seek(t1+13)
